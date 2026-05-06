@@ -1362,7 +1362,7 @@ a { color: var(--ink); }
           <form data-sell-form action="https://formsubmit.co/louise@icania.co.uk" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_subject" value="New Icania sell enquiry">
             <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="https://icania.co.uk/?sent=1">
+            <input type="hidden" name="_next" value="https://icania.co.uk/?sent=1#sell">
             <input type="hidden" name="_honey" value="">
 
             <div class="form-field">
@@ -1420,6 +1420,18 @@ a { color: var(--ink); }
               <button class="btn btn-arrow" type="submit">Submit enquiry</button>
             </div>
           </form>
+
+          <div class="sell-sent fade-up" data-sell-sent hidden style="text-align: center; padding: 96px 24px;">
+            <svg viewBox="0 0 80 64" aria-hidden="true" style="width: 104px; height: auto; color: var(--ink); margin-bottom: 36px;">
+              <rect x="6" y="16" width="68" height="42" rx="1" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M6 16 L40 42 L74 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <g transform="translate(40 41)" fill="var(--accent)">
+                <path d="M0 -6 L0.8 -0.8 L6 0 L0.8 0.8 L0 6 L-0.8 0.8 L-6 0 L-0.8 -0.8 Z"/>
+              </g>
+            </svg>
+            <h2 class="display-l" style="margin-bottom: 20px;">Sent.</h2>
+            <p class="body-l" style="color: var(--ink-65); max-width: 360px; margin: 0 auto;">Louise will get in touch soon.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -2524,6 +2536,19 @@ const REVIEWS = {
       alert('Please agree to the privacy terms to submit.');
     }
   });
+})();
+
+/* ---------- Form: post-submit success state ---------- */
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('sent') !== '1') return;
+  const form = document.querySelector('form[data-sell-form]');
+  const sent = document.querySelector('[data-sell-sent]');
+  if (form) form.style.display = 'none';
+  if (sent) sent.hidden = false;
+  // Strip ?sent=1 from the URL but keep the #sell hash so the router stays on the sell view
+  const cleanUrl = window.location.pathname + (window.location.hash || '#sell');
+  window.history.replaceState({}, '', cleanUrl);
 })();
 
 </script>
