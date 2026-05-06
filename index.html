@@ -211,6 +211,11 @@ a { color: var(--ink); text-decoration: none; }
   height: 14px;
   margin-bottom: 2px;
 }
+.spark { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.4s ease; }
+@media (hover: hover) {
+  .nav-mark:hover .spark,
+  .footer-mark:hover .spark { transform: rotate(72deg); }
+}
 .nav-links {
   display: flex;
   gap: 40px;
@@ -630,13 +635,69 @@ form[data-sell-form] button[type="submit"] { min-width: 220px; }
   margin: 0;
   font-size: clamp(64px, 11vw, 184px);
 }
+.hero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-self: center;
+}
+.hero-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(22px, 2.4vw, 36px);
+  line-height: 1.25;
+  color: var(--accent);
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0;
+}
 .hero-cta {
   display: flex;
   flex-direction: column;
   gap: 18px;
   align-items: flex-start;
   padding-bottom: 12px;
-  justify-self: center;
+}
+
+/* ---------- Scroll progress bar ---------- */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  z-index: 200;
+  transition: width 0.05s linear;
+  pointer-events: none;
+}
+
+/* ---------- Sticky Sell CTA (only on /sell after scroll past hero) ---------- */
+.sticky-sell-cta {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 14px 26px;
+  background: var(--accent);
+  color: var(--bg);
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 16px 32px -8px rgba(142, 123, 163, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.32s ease, transform 0.32s ease, background 0.25s;
+  z-index: 80;
+}
+.sticky-sell-cta.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+@media (hover: hover) {
+  .sticky-sell-cta:hover { background: var(--ink); }
 }
 
 /* ---------- Skip-to-content (visible on keyboard focus) ---------- */
@@ -715,6 +776,7 @@ main:focus { outline: none; }
 /* Indented CTA band — used for "Sounds straightforward?" / "Want in?" / "Add yours" etc. */
 .cta-band {
   padding: 80px 0;
+  background: rgba(142, 123, 163, 0.04);
 }
 .cta-band-inner {
   max-width: 1280px;
@@ -878,10 +940,19 @@ main:focus { outline: none; }
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: background 0.3s;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: background 0.3s, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
   position: relative;
 }
-.product-card:hover { background: #ECE2F2; }
+@media (hover: hover) {
+  .product-card:hover {
+    background: #ECE2F2;
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -16px rgba(31, 37, 64, 0.18);
+    border-color: var(--accent-30);
+  }
+}
 .product-img {
   aspect-ratio: 4 / 5;
   background: var(--ink-06);
@@ -1096,6 +1167,7 @@ main:focus { outline: none; }
   line-height: 1.75;
   margin-bottom: 1.5em;
   color: var(--ink-80);
+  max-width: 65ch;
 }
 .faq-list {
   border-top: var(--hair-strong);
@@ -1253,6 +1325,7 @@ main:focus { outline: none; }
   line-height: 1.75;
   margin-bottom: 1.1em;
   color: var(--ink-80);
+  max-width: 65ch;
 }
 .legal ul {
   font-family: var(--font);
@@ -1301,6 +1374,29 @@ main:focus { outline: none; }
   .fade-up-2 { animation-delay: 0.2s; }
   .fade-up-3 { animation-delay: 0.35s; }
   .fade-up-4 { animation-delay: 0.5s; }
+
+  /* Scroll-triggered reveal for deeper-page elements */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .scroll-reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* Light cross-fade between SPA views */
+  [data-view] { animation: viewIn 0.22s ease both; }
+  @keyframes viewIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+@media (min-width: 1800px) {
+  .display-xxl { font-size: clamp(72px, 12vw, 248px); }
+  .display-xl  { font-size: clamp(54px, 9vw,  200px); }
+  .display-l   { font-size: clamp(44px, 6.5vw, 132px); }
+  .display-m   { font-size: clamp(32px, 4.5vw, 80px);  }
 }
 
 @media (max-width: 960px) {
@@ -1311,7 +1407,9 @@ main:focus { outline: none; }
   .review-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-headline-row { grid-template-columns: 1fr; gap: 40px; }
-  .hero-cta { padding-bottom: 0; justify-self: start; }
+  .hero-side { gap: 24px; align-items: flex-start; justify-self: start; }
+  .hero-cta { padding-bottom: 0; }
+  .hero-tagline { display: none; }
   .sell-hero { grid-template-columns: 1fr; }
   .sell-hero-left { border-right: 0; border-bottom: var(--hair-strong); padding: 64px var(--gutter); }
   .sell-hero-right { padding: 64px var(--gutter); }
@@ -1400,6 +1498,8 @@ main:focus { outline: none; }
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
+<div id="scroll-progress" aria-hidden="true"></div>
+<button class="sticky-sell-cta" type="button" aria-label="Jump to sell enquiry form">Submit enquiry</button>
 <div id="page-loader" aria-hidden="true">
   <div class="page-loader-stack">
     <img src="fairy_stopmotion.gif" alt="Icania" width="200" height="200">
@@ -1470,9 +1570,12 @@ if ('serviceWorker' in navigator) {
       <div class="hero-line">
         <div class="hero-headline-row">
           <h1 class="display-xxl fade-up fade-up-1">Sell your<br>wardrobe<br>without the hassle.</h1>
-          <div class="hero-cta fade-up fade-up-2">
-            <a class="btn btn-arrow" href="/sell">Sell with Icania</a>
-            <a class="btn-text" href="/shop">Or browse the shop</a>
+          <div class="hero-side fade-up fade-up-2">
+            <p class="hero-tagline" aria-hidden="true">South West London<br>consignment.</p>
+            <div class="hero-cta">
+              <a class="btn btn-arrow" href="/sell">Sell with Icania</a>
+              <a class="btn-text" href="/shop">Or browse the shop</a>
+            </div>
           </div>
         </div>
       </div>
@@ -2531,6 +2634,29 @@ const REVIEWS = {
   ]
 };
 
+/* ---------- Scroll-reveal observer ---------- */
+const __revealSelector = '.numbered-row, .faq-item, .next-step, .trust-item, .review-card, .seller-card';
+let __revealObserver = null;
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  __revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+})();
+function __observeReveals(scope) {
+  if (!__revealObserver) return;
+  (scope || document).querySelectorAll(__revealSelector).forEach((el) => {
+    el.classList.add('scroll-reveal');
+    if (!el.classList.contains('in-view')) __revealObserver.observe(el);
+  });
+}
+
 /* ---------- Path router (SPA on GitHub Pages) ---------- */
 (function () {
   const views = document.querySelectorAll('[data-view]');
@@ -2551,11 +2677,19 @@ const REVIEWS = {
       v.style.display = isActive ? '' : 'none';
       if (isActive) {
         matched = true;
+        // Re-trigger the parent view fade-in
+        v.style.animation = 'none';
+        void v.offsetWidth;
+        v.style.animation = '';
+        // Re-trigger the staggered fade-ups inside
         v.querySelectorAll('.fade-up').forEach((el) => {
           el.style.animation = 'none';
           void el.offsetWidth;
           el.style.animation = '';
         });
+        // Reset scroll-reveal elements inside this view and re-observe them
+        v.querySelectorAll('.scroll-reveal').forEach((el) => el.classList.remove('in-view'));
+        __observeReveals(v);
       }
     });
     if (!matched) {
@@ -2598,6 +2732,48 @@ const REVIEWS = {
 
   window.addEventListener('popstate', () => setView(pathToView(window.location.pathname)));
   setView(pathToView(window.location.pathname));
+})();
+
+/* ---------- Scroll progress bar ---------- */
+(function () {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  function update() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
+
+/* ---------- Sticky Sell CTA visibility ---------- */
+(function () {
+  const cta = document.querySelector('.sticky-sell-cta');
+  if (!cta) return;
+  const form = document.querySelector('form[data-sell-form]');
+  cta.addEventListener('click', () => {
+    if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  let formInView = false;
+  if (form && 'IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      formInView = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0.2 }).observe(form);
+  }
+  function update() {
+    const onSell = window.location.pathname.replace(/\/$/, '') === '/sell';
+    const past = window.scrollY > 600;
+    cta.classList.toggle('visible', onSell && past && !formInView);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('popstate', update);
+  // Re-check on any SPA navigation (poll a few times after pushState)
+  const origPush = history.pushState;
+  history.pushState = function () { origPush.apply(this, arguments); setTimeout(update, 50); };
+  update();
 })();
 
 /* ---------- Mobile nav toggle ---------- */
