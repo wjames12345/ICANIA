@@ -96,6 +96,9 @@ p:last-child { margin-bottom: 0; }
 
 a { color: var(--ink); text-decoration: none; }
 
+::selection { background: var(--accent-30); color: var(--ink); }
+::-moz-selection { background: var(--accent-30); color: var(--ink); }
+
 .display-xxl {
   font-family: var(--font-display);
   font-size: clamp(72px, 14vw, 220px);
@@ -223,11 +226,13 @@ a { color: var(--ink); text-decoration: none; }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   padding-bottom: 4px;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   transition: border-color 0.25s, color 0.25s;
   font-family: var(--font);
 }
-.nav-links a:hover { color: var(--accent); }
+@media (hover: hover) {
+  .nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent-30); }
+}
 .nav-links a.active { border-bottom-color: var(--accent); color: var(--accent); }
 
 .nav-toggle {
@@ -246,7 +251,7 @@ a { color: var(--ink); text-decoration: none; }
 /* ---------- Footer ---------- */
 
 .footer {
-  border-top: var(--hair-strong);
+  border-top: 1px solid var(--accent-30);
   padding: 96px 0 40px;
   margin-top: 120px;
 }
@@ -347,6 +352,17 @@ form[data-sell-form] button[type="submit"] { min-width: 220px; }
 }
 .btn-ghost:hover { background: var(--ink); color: var(--bg); }
 
+.btn.btn-arrow {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 12px 32px -16px rgba(142, 123, 163, 0.55);
+}
+.btn.btn-arrow:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
 .btn-arrow::after {
   content: " →";
   margin-left: 8px;
@@ -1107,6 +1123,10 @@ main:focus { outline: none; }
   align-items: center;
   gap: 32px;
   font-weight: 400;
+  transition: background-color 0.25s ease;
+}
+@media (hover: hover) {
+  .faq-q:hover { background-color: rgba(142, 123, 163, 0.06); }
 }
 .faq-q .icon {
   flex: 0 0 auto;
@@ -1357,15 +1377,7 @@ main:focus { outline: none; }
   .hero-headline-row { gap: 24px; }
   .trust { display: grid; grid-template-columns: 1fr 1fr; row-gap: 36px; column-gap: 24px; align-items: start; }
   .trust-item { padding-top: 16px; border-top: 1px solid var(--accent-30); }
-  .btn.btn-arrow {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--bg);
-    font-size: 12px;
-    padding: 18px 28px;
-    box-shadow: 0 12px 32px -16px rgba(142, 123, 163, 0.6);
-  }
-  .btn.btn-arrow:active { background: var(--ink); border-color: var(--ink); }
+  .btn.btn-arrow { font-size: 12px; padding: 18px 28px; }
   .about-hero { padding: 56px var(--gutter); }
   .about-body { padding: 48px var(--gutter); }
   .sell-hero-left { padding: 48px var(--gutter); }
