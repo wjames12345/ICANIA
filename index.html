@@ -532,7 +532,7 @@ a { color: var(--ink); }
 /* ---------- Page-specific ---------- */
 
 .hero {
-  padding: 56px 0 128px;
+  padding: 24px 0 88px;
   border-bottom: var(--hair-strong);
 }
 .hero-line {
@@ -541,27 +541,40 @@ a { color: var(--ink); }
   margin: 0 auto;
   position: relative;
 }
-.hero-emblem {
-  display: block;
-  margin-bottom: 36px;
-  color: var(--accent);
-  width: 48px;
-  height: 48px;
-}
-.hero-emblem svg { width: 100%; height: 100%; display: block; }
 .hero-headline-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 80px;
-  align-items: center;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 64px;
+  align-items: end;
 }
-.hero-headline-row h1 { margin: 0; }
+.hero-headline-row h1 {
+  margin: 0;
+  font-size: clamp(64px, 11vw, 184px);
+}
+.hero-headline-col {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
 .hero-cta {
   display: flex;
   flex-direction: column;
   gap: 18px;
   align-items: flex-start;
-  padding-bottom: 12px;
+}
+.hero-media {
+  aspect-ratio: 4 / 5;
+  max-height: 68vh;
+  background: var(--ink-06);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .hero-description {
   padding: 64px var(--gutter) 0;
@@ -1228,14 +1241,18 @@ a { color: var(--ink); }
 <section data-view="home">
 <section class="hero">
       <div class="hero-line">
-        <div class="hero-emblem fade-up fade-up-1" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.2 10.8 L24 12 L13.2 13.2 L12 24 L10.8 13.2 L0 12 L10.8 10.8 Z"/></svg>
-        </div>
         <div class="hero-headline-row">
-          <h1 class="display-xxl fade-up fade-up-2">Sell your<br>wardrobe<br>without the hassle.</h1>
-          <div class="hero-cta fade-up fade-up-3">
-            <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
-            <a class="btn-text" href="#shop">Or browse the shop</a>
+          <div class="hero-headline-col">
+            <h1 class="display-xxl fade-up fade-up-1">Sell your<br>wardrobe<br>without the hassle.</h1>
+            <div class="hero-cta fade-up fade-up-2">
+              <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
+              <a class="btn-text" href="#shop">Or browse the shop</a>
+            </div>
+          </div>
+          <div class="hero-media fade-up fade-up-3">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+              <source src="fairy.mp4" type="video/mp4">
+            </video>
           </div>
         </div>
       </div>
