@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
 p { margin: 0 0 1em; }
 p:last-child { margin-bottom: 0; }
 
-a { color: var(--ink); }
+a { color: var(--ink); text-decoration: none; }
 
 .display-xxl {
   font-family: var(--font-display);
@@ -543,8 +543,8 @@ a { color: var(--ink); }
 }
 .hero-headline-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 64px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
   align-items: center;
 }
 .hero-headline-row h1 {
@@ -557,6 +557,7 @@ a { color: var(--ink); }
   gap: 18px;
   align-items: flex-start;
   padding-bottom: 12px;
+  justify-self: center;
 }
 
 /* ---------- Page loader (delayed; only shown if load > 200ms) ---------- */
@@ -1149,7 +1150,7 @@ a { color: var(--ink); }
   .review-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-headline-row { grid-template-columns: 1fr; gap: 40px; }
-  .hero-cta { padding-bottom: 0; }
+  .hero-cta { padding-bottom: 0; justify-self: start; }
   .sell-hero { grid-template-columns: 1fr; }
   .sell-hero-left { border-right: 0; border-bottom: var(--hair-strong); padding: 64px var(--gutter); }
   .sell-hero-right { padding: 64px var(--gutter); }
@@ -1157,7 +1158,7 @@ a { color: var(--ink); }
   .sell-aftermath { padding: 64px var(--gutter); }
   .about-hero { padding: 88px var(--gutter); }
   .about-body { padding: 56px var(--gutter); }
-  .page-header { padding: 80px 0 48px; }
+  .page-header { padding: 80px var(--gutter) 48px; }
   .legal { padding: 96px var(--gutter); }
   .cta-band { padding: 64px 0; }
   .numbered-row { grid-template-columns: 1fr; gap: 16px; padding: 56px var(--gutter); }
@@ -1201,7 +1202,7 @@ a { color: var(--ink); }
   .sell-hero-right { padding: 48px var(--gutter); }
   .sell-aftermath { padding: 48px var(--gutter); }
   .sell-sent { padding: 64px 16px !important; }
-  .page-header { padding: 56px 0 32px; }
+  .page-header { padding: 56px var(--gutter) 32px; }
   .legal { padding: 64px var(--gutter); }
   .cta-band { padding: 48px 0; }
   .cta-band-inner { gap: 24px; }
@@ -1662,7 +1663,7 @@ a { color: var(--ink); }
 <section data-view="faq" style="display:none;">
 <section class="page-header">
       <h1 class="display-l fade-up fade-up-1">Frequently asked.</h1>
-      <p class="body-l fade-up fade-up-2" style="margin-top: 24px;">Anything not answered here, drop us a line at <a href="mailto:louise@icania.co.uk" style="border-bottom: 1px solid var(--ink);">louise@icania.co.uk</a>. We usually reply within a day.</p>
+      <p class="body-l fade-up fade-up-2" style="margin-top: 24px;">Anything not answered here, email <a href="mailto:louise@icania.co.uk" style="border-bottom: 1px solid var(--ink);">louise@icania.co.uk</a>. We usually reply within a day.</p>
     </section>
 
     <div class="faq-list">
