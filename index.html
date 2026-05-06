@@ -543,37 +543,38 @@ a { color: var(--ink); }
 }
 .hero-headline-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 64px;
-  align-items: end;
+  align-items: center;
 }
 .hero-headline-row h1 {
   margin: 0;
   font-size: clamp(64px, 11vw, 184px);
-}
-.hero-headline-col {
-  display: flex;
-  flex-direction: column;
-  gap: 44px;
 }
 .hero-cta {
   display: flex;
   flex-direction: column;
   gap: 18px;
   align-items: flex-start;
+  padding-bottom: 12px;
 }
-.hero-media {
-  aspect-ratio: 1 / 1;
-  max-height: 68vh;
-  background: var(--ink-06);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
+
+/* ---------- Page loader (delayed; only shown if load > 200ms) ---------- */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 360ms ease;
 }
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#page-loader.show { display: flex; }
+#page-loader.hide { opacity: 0; pointer-events: none; }
+#page-loader img {
+  width: clamp(140px, 20vw, 220px);
+  height: auto;
   display: block;
 }
 .hero-description {
@@ -1215,6 +1216,40 @@ a { color: var(--ink); }
   </style>
 </head>
 <body>
+<div id="page-loader" aria-hidden="true">
+  <img src="fairy_stopmotion.gif" alt="">
+</div>
+<script>
+(function () {
+  var loader = document.getElementById('page-loader');
+  if (!loader) return;
+  var shown = false, shownAt = 0;
+  var showTimer = setTimeout(function () {
+    if (document.readyState !== 'complete') {
+      loader.classList.add('show');
+      shown = true;
+      shownAt = Date.now();
+    }
+  }, 200);
+  function done() {
+    clearTimeout(showTimer);
+    if (!shown) {
+      if (loader.parentNode) loader.parentNode.removeChild(loader);
+      return;
+    }
+    var minVisible = 600;
+    var wait = Math.max(0, minVisible - (Date.now() - shownAt));
+    setTimeout(function () {
+      loader.classList.add('hide');
+      setTimeout(function () {
+        if (loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 400);
+    }, wait);
+  }
+  if (document.readyState === 'complete') done();
+  else window.addEventListener('load', done);
+})();
+</script>
 
 <header class="nav">
   <div class="nav-inner">
@@ -1239,15 +1274,10 @@ a { color: var(--ink); }
 <section class="hero">
       <div class="hero-line">
         <div class="hero-headline-row">
-          <div class="hero-headline-col">
-            <h1 class="display-xxl fade-up fade-up-1">Sell your<br>wardrobe<br>without the hassle.</h1>
-            <div class="hero-cta fade-up fade-up-2">
-              <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
-              <a class="btn-text" href="#shop">Or browse the shop</a>
-            </div>
-          </div>
-          <div class="hero-media fade-up fade-up-3">
-            <img class="hero-video" src="fairy_stopmotion.gif" alt="">
+          <h1 class="display-xxl fade-up fade-up-1">Sell your<br>wardrobe<br>without the hassle.</h1>
+          <div class="hero-cta fade-up fade-up-2">
+            <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
+            <a class="btn-text" href="#shop">Or browse the shop</a>
           </div>
         </div>
       </div>
@@ -1271,7 +1301,7 @@ a { color: var(--ink); }
           <span>Months on the rail</span>
         </div>
         <div class="trust-item">
-          <span class="trust-num mono-num">SW</span>
+          <span class="trust-num mono-num">South West</span>
           <span>London only</span>
         </div>
       </div>
@@ -1298,7 +1328,7 @@ a { color: var(--ink); }
           <span class="step-num mono-num">02</span>
           <div>
             <h3 class="step-title">We collect.</h3>
-            <p class="step-body">Drop your pieces off in SW London or we collect for a small fee deducted from your final payment.</p>
+            <p class="step-body">Drop your pieces off in South West London or we collect for a small fee deducted from your final payment.</p>
           </div>
         </div>
         <div class="step-cell">
@@ -1397,7 +1427,7 @@ a { color: var(--ink); }
             <div class="form-field">
               <label class="form-label" for="postcode">Postcode<span class="req">Required</span></label>
               <input class="form-input" id="postcode" name="postcode" type="text" required autocomplete="postal-code" placeholder="SW13 9XX">
-              <p class="form-help">SW London only at the moment. Full address taken on the call.</p>
+              <p class="form-help">South West London only at the moment. Full address taken on the call.</p>
             </div>
 
             <div class="form-field">
@@ -1471,7 +1501,7 @@ a { color: var(--ink); }
             <span class="num mono-num">02</span>
             <div>
               <p class="title">Drop off or collection.</p>
-              <p class="desc">Bring your pieces to us in SW London, or we can collect for a small fee deducted from your final payment.</p>
+              <p class="desc">Bring your pieces to us in South West London, or we can collect for a small fee deducted from your final payment.</p>
             </div>
           </div>
           <div class="next-step">
@@ -1522,7 +1552,7 @@ a { color: var(--ink); }
           <span class="num mono-num">02.</span>
           <h2 class="title">Clothes are collected.</h2>
           <div class="body">
-            <p>You can drop your pieces off at our SW London base for free, or we can collect from your home for a small fee that comes out of your final payment.</p>
+            <p>You can drop your pieces off at our South West London base for free, or we can collect from your home for a small fee that comes out of your final payment.</p>
             <p>We currently only operate within South West London. If you&rsquo;re further out and have a sizeable batch, drop us a line. We&rsquo;ll see what&rsquo;s possible.</p>
           </div>
         </div>
@@ -1616,7 +1646,7 @@ a { color: var(--ink); }
         <p>Icania was started by Louise, a one woman South West London consignment service for women who have wardrobes full of clothes they no longer wear and no time to sell them.</p>
         <p>The business runs on a simple principle: most people who could be making money from their old clothes never will, because the work involved is genuinely tedious. Photographing each piece, writing a description, dealing with messages, packing, posting, handling returns. After two or three items, most people give up.</p>
         <p>Icania does the work. You drop your pieces off, or have them collected, and they reappear on the rail, photographed properly, written up properly, and sold to buyers who already trust the shop. Whatever sells, the proceeds are split fifty fifty.</p>
-        <p>The shop has built up over seven hundred five star reviews on Vinted and a steady base of repeat consignors across SW London. We&rsquo;re selective about what we accept, the curation is the whole point, but we&rsquo;re happy to take a look at almost anything.</p>
+        <p>The shop has built up over seven hundred five star reviews on Vinted and a steady base of repeat consignors across South West London. We&rsquo;re selective about what we accept, the curation is the whole point, but we&rsquo;re happy to take a look at almost anything.</p>
         <p style="font-style: italic; color: var(--ink-70); margin-top: 32px;">More about Louise, the workshop, and how the shop ended up here. Coming soon.</p>
       </div>
     </section>
