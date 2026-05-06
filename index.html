@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Icania · South West London consignment</title>
   <meta name="description" content="Sell your wardrobe without the hassle. Icania is a South West London womenswear consignment service.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap">
+  <script>
+    // SPA-on-GitHub-Pages: when 404.html redirects with ?/path, restore the real URL
+    (function (l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('&').map(function (s) {
+          return s.replace(/~and~/g, '&');
+        }).join('?');
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+      }
+    }(window.location));
+  </script>
   <style>
 /* =========================================================
    ICANIA — Soft luxury, lavender + ink + muted purple
    Cormorant Garamond display + Helvetica body
    ========================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -23,7 +35,7 @@ html, body { margin: 0; padding: 0; }
 
   --ink-80: rgba(31, 37, 64, 0.8);
   --ink-65: rgba(31, 37, 64, 0.65);
-  --ink-45: rgba(31, 37, 64, 0.45);
+  --ink-45: rgba(31, 37, 64, 0.55);
   --ink-25: rgba(31, 37, 64, 0.25);
   --ink-12: rgba(31, 37, 64, 0.12);
   --ink-06: rgba(31, 37, 64, 0.06);
@@ -1136,11 +1148,13 @@ a { color: var(--ink); text-decoration: none; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.fade-up { animation: fadeUp 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-.fade-up-1 { animation-delay: 0.05s; }
-.fade-up-2 { animation-delay: 0.2s; }
-.fade-up-3 { animation-delay: 0.35s; }
-.fade-up-4 { animation-delay: 0.5s; }
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up { animation: fadeUp 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .fade-up-1 { animation-delay: 0.05s; }
+  .fade-up-2 { animation-delay: 0.2s; }
+  .fade-up-3 { animation-delay: 0.35s; }
+  .fade-up-4 { animation-delay: 0.5s; }
+}
 
 @media (max-width: 960px) {
   .three-step { grid-template-columns: repeat(2, 1fr); }
@@ -1218,15 +1232,18 @@ a { color: var(--ink); text-decoration: none; }
 </head>
 <body>
 <div id="page-loader" aria-hidden="true">
-  <img src="fairy_stopmotion.gif" alt="">
+  <img src="fairy_stopmotion.gif" alt="Icania" width="200" height="200">
 </div>
 <script>
 (function () {
   var loader = document.getElementById('page-loader');
   if (!loader) return;
   var shown = false, shownAt = 0;
+  function ready() {
+    return document.readyState === 'interactive' || document.readyState === 'complete';
+  }
   var showTimer = setTimeout(function () {
-    if (document.readyState !== 'complete') {
+    if (!ready()) {
       loader.classList.add('show');
       shown = true;
       shownAt = Date.now();
@@ -1247,24 +1264,24 @@ a { color: var(--ink); text-decoration: none; }
       }, 400);
     }, wait);
   }
-  if (document.readyState === 'complete') done();
-  else window.addEventListener('load', done);
+  if (ready()) done();
+  else document.addEventListener('DOMContentLoaded', done);
 })();
 </script>
 
 <header class="nav">
   <div class="nav-inner">
-    <a class="nav-mark" href="#home"><span class="spark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.2 10.8 L24 12 L13.2 13.2 L12 24 L10.8 13.2 L0 12 L10.8 10.8 Z"/></svg></span>Icania</a>
+    <a class="nav-mark" href="/"><span class="spark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0 L13.2 10.8 L24 12 L13.2 13.2 L12 24 L10.8 13.2 L0 12 L10.8 10.8 Z"/></svg></span>Icania</a>
     <nav>
       <button class="nav-toggle" aria-expanded="false">Menu</button>
       <ul class="nav-links">
-        <li><a href="#home" data-nav="home">Home</a></li>
-        <li><a href="#shop" data-nav="shop">Shop</a></li>
-        <li><a href="#sell" data-nav="sell">Sell</a></li>
-        <li><a href="#how-it-works" data-nav="how-it-works">How it works</a></li>
-        <li><a href="#reviews" data-nav="reviews">Reviews</a></li>
-        <li><a href="#about" data-nav="about">About</a></li>
-        <li><a href="#faq" data-nav="faq">FAQ</a></li>
+        <li><a href="/" data-nav="home">Home</a></li>
+        <li><a href="/shop" data-nav="shop">Shop</a></li>
+        <li><a href="/sell" data-nav="sell">Sell</a></li>
+        <li><a href="/how-it-works" data-nav="how-it-works">How it works</a></li>
+        <li><a href="/reviews" data-nav="reviews">Reviews</a></li>
+        <li><a href="/about" data-nav="about">About</a></li>
+        <li><a href="/faq" data-nav="faq">FAQ</a></li>
       </ul>
     </nav>
   </div>
@@ -1277,8 +1294,8 @@ a { color: var(--ink); text-decoration: none; }
         <div class="hero-headline-row">
           <h1 class="display-xxl fade-up fade-up-1">Sell your<br>wardrobe<br>without the hassle.</h1>
           <div class="hero-cta fade-up fade-up-2">
-            <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
-            <a class="btn-text" href="#shop">Or browse the shop</a>
+            <a class="btn btn-arrow" href="/sell">Sell with Icania</a>
+            <a class="btn-text" href="/shop">Or browse the shop</a>
           </div>
         </div>
       </div>
@@ -1314,7 +1331,7 @@ a { color: var(--ink); text-decoration: none; }
           <div>
             <h2 class="display-l">How it works.</h2>
           </div>
-          <a class="btn-text" href="#how-it-works">See full process</a>
+          <a class="btn-text" href="/how-it-works">See full process</a>
         </div>
       </div>
       <div class="three-step">
@@ -1358,7 +1375,7 @@ a { color: var(--ink); text-decoration: none; }
     <section class="cta-band with-rule">
       <div class="cta-band-inner">
         <h2 class="display-m">Ready when you are.</h2>
-        <a class="btn btn-arrow" href="#sell">Start selling</a>
+        <a class="btn btn-arrow" href="/sell">Start selling</a>
       </div>
     </section>
 </section>
@@ -1388,7 +1405,7 @@ a { color: var(--ink); text-decoration: none; }
     <section class="cta-band">
       <div class="cta-band-inner">
         <p class="display-s" style="max-width: 580px;">Have pieces you&rsquo;d like to see on the rail? Send them our way.</p>
-        <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
+        <a class="btn btn-arrow" href="/sell">Sell with Icania</a>
       </div>
     </section>
 </section>
@@ -1411,7 +1428,7 @@ a { color: var(--ink); text-decoration: none; }
           <form data-sell-form action="https://formsubmit.co/louise@icania.co.uk" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_subject" value="New Icania sell enquiry">
             <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="https://icania.co.uk/?sent=1#sell">
+            <input type="hidden" name="_next" value="https://icania.co.uk/sell?sent=1">
             <input type="hidden" name="_honey" value="">
 
             <div class="form-field">
@@ -1462,7 +1479,7 @@ a { color: var(--ink); text-decoration: none; }
 
             <div class="form-check">
               <input type="checkbox" id="consent" name="consent" required>
-              <label for="consent">I agree to Icania storing my details to respond to this enquiry, in line with the <a href="#privacy">privacy policy</a>. We will never share your information with anyone else.</label>
+              <label for="consent">I agree to Icania storing my details to respond to this enquiry, in line with the <a href="/privacy">privacy policy</a>. We will never share your information with anyone else.</label>
             </div>
 
             <div style="margin-top: 40px;">
@@ -1516,7 +1533,7 @@ a { color: var(--ink); text-decoration: none; }
             <span class="num mono-num">04</span>
             <div>
               <p class="title">Your details stay yours.</p>
-              <p class="desc">We don&rsquo;t share your information with anyone, ever. Read our <a href="#privacy" style="border-bottom: 1px solid var(--ink);">privacy policy</a>.</p>
+              <p class="desc">We don&rsquo;t share your information with anyone, ever. Read our <a href="/privacy" style="border-bottom: 1px solid var(--ink);">privacy policy</a>.</p>
             </div>
           </div>
         </div>
@@ -1526,7 +1543,7 @@ a { color: var(--ink); text-decoration: none; }
     <section class="cta-band">
       <div class="cta-band-inner">
         <p class="display-s" style="max-width: 580px;">Want the full process before you submit?</p>
-        <a class="btn-text" href="#how-it-works">Read how it works</a>
+        <a class="btn-text" href="/how-it-works">Read how it works</a>
       </div>
     </section>
 </section>
@@ -1594,7 +1611,7 @@ a { color: var(--ink); text-decoration: none; }
     <section class="cta-band with-rule">
       <div class="cta-band-inner">
         <h2 class="display-m">Sound straightforward?</h2>
-        <a class="btn btn-arrow" href="#sell">Start your enquiry</a>
+        <a class="btn btn-arrow" href="/sell">Start your enquiry</a>
       </div>
     </section>
 </section>
@@ -1631,8 +1648,8 @@ a { color: var(--ink); text-decoration: none; }
       <div class="cta-band-inner">
         <h2 class="display-m">Add yours.</h2>
         <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-          <a class="btn-text" href="#shop">Buy something</a>
-          <a class="btn btn-arrow" href="#sell">Sell with us</a>
+          <a class="btn-text" href="/shop">Buy something</a>
+          <a class="btn btn-arrow" href="/sell">Sell with us</a>
         </div>
       </div>
     </section>
@@ -1656,7 +1673,7 @@ a { color: var(--ink); text-decoration: none; }
     <section class="cta-band with-rule">
       <div class="cta-band-inner">
         <h2 class="display-m">Want in?</h2>
-        <a class="btn btn-arrow" href="#sell">Sell with Icania</a>
+        <a class="btn btn-arrow" href="/sell">Sell with Icania</a>
       </div>
     </section>
 </section>
@@ -1801,7 +1818,7 @@ a { color: var(--ink); text-decoration: none; }
           <span class="icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-a">
-          <p>Never. Your contact details are used only to communicate with you about your consignment and your payments. We don&rsquo;t share, sell, or pass on your information to anyone, ever. See our <a href="#privacy" style="border-bottom: 1px solid var(--ink);">privacy policy</a>.</p>
+          <p>Never. Your contact details are used only to communicate with you about your consignment and your payments. We don&rsquo;t share, sell, or pass on your information to anyone, ever. See our <a href="/privacy" style="border-bottom: 1px solid var(--ink);">privacy policy</a>.</p>
         </div>
       </div>
 
@@ -1913,17 +1930,17 @@ a { color: var(--ink); text-decoration: none; }
     <div>
       <h4>Browse</h4>
       <ul>
-        <li><a href="#shop">Shop</a></li>
-        <li><a href="#sell">Sell</a></li>
-        <li><a href="#how-it-works">How it works</a></li>
-        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/sell">Sell</a></li>
+        <li><a href="/how-it-works">How it works</a></li>
+        <li><a href="/reviews">Reviews</a></li>
       </ul>
     </div>
     <div>
       <h4>Service</h4>
       <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#faq">FAQ</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/faq">FAQ</a></li>
         <li><a href="mailto:louise@icania.co.uk">Contact</a></li>
         <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
       </ul>
@@ -1931,8 +1948,8 @@ a { color: var(--ink); text-decoration: none; }
     <div>
       <h4>Legal</h4>
       <ul>
-        <li><a href="#privacy">Privacy</a></li>
-        <li><a href="#terms">Terms</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/terms">Terms</a></li>
       </ul>
     </div>
   </div>
@@ -2332,10 +2349,17 @@ const REVIEWS = {
   ]
 };
 
-/* ---------- Hash router ---------- */
+/* ---------- Path router (SPA on GitHub Pages) ---------- */
 (function () {
   const views = document.querySelectorAll('[data-view]');
   const navLinks = document.querySelectorAll('[data-nav]');
+  const knownViews = new Set(Array.from(views).map((v) => v.dataset.view));
+
+  function pathToView(pathname) {
+    const slug = (pathname || '/').replace(/^\/+|\/+$/g, '');
+    if (!slug) return 'home';
+    return knownViews.has(slug) ? slug : 'home';
+  }
 
   function setView(name) {
     if (!name) name = 'home';
@@ -2345,7 +2369,6 @@ const REVIEWS = {
       v.style.display = isActive ? '' : 'none';
       if (isActive) {
         matched = true;
-        // Re-trigger fade-up animations on the active view
         v.querySelectorAll('.fade-up').forEach((el) => {
           el.style.animation = 'none';
           void el.offsetWidth;
@@ -2354,22 +2377,42 @@ const REVIEWS = {
       }
     });
     if (!matched) {
-      // unknown hash — fall back to home
       const home = document.querySelector('[data-view="home"]');
       if (home) home.style.display = '';
     }
     navLinks.forEach((a) => {
       a.classList.toggle('active', a.dataset.nav === name);
     });
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function getView() {
-    return (window.location.hash || '#home').replace('#', '');
-  }
+  // Intercept clicks on internal links and route via pushState
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href[0] !== '/' || href.startsWith('//')) return;
+    if (a.target && a.target !== '_self') return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    if (href !== window.location.pathname + window.location.search) {
+      window.history.pushState({}, '', href);
+    }
+    setView(pathToView(window.location.pathname));
+    // Close mobile nav after navigation
+    const links = document.querySelector('.nav-links');
+    const toggle = document.querySelector('.nav-toggle');
+    if (links && links.classList.contains('mobile-open')) {
+      links.classList.remove('mobile-open');
+      if (toggle) {
+        toggle.textContent = 'Menu';
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
 
-  window.addEventListener('hashchange', () => setView(getView()));
-  setView(getView());
+  window.addEventListener('popstate', () => setView(pathToView(window.location.pathname)));
+  setView(pathToView(window.location.pathname));
 })();
 
 /* ---------- Mobile nav toggle ---------- */
@@ -2382,23 +2425,26 @@ const REVIEWS = {
     toggle.textContent = isOpen ? 'Close' : 'Menu';
     toggle.setAttribute('aria-expanded', String(isOpen));
   });
-  // Close mobile nav when a link is clicked
-  links.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A' && links.classList.contains('mobile-open')) {
-      links.classList.remove('mobile-open');
-      toggle.textContent = 'Menu';
-    }
-  });
 })();
 
-/* ---------- FAQ accordion ---------- */
+/* ---------- FAQ accordion (single-open) ---------- */
 (function () {
-  document.querySelectorAll('.faq-item').forEach((item) => {
+  const items = document.querySelectorAll('.faq-item');
+  items.forEach((item) => {
     const q = item.querySelector('.faq-q');
     if (!q) return;
     q.addEventListener('click', () => {
-      const isOpen = item.classList.toggle('open');
-      q.setAttribute('aria-expanded', String(isOpen));
+      const willOpen = !item.classList.contains('open');
+      // Close every other item
+      items.forEach((other) => {
+        if (other !== item) {
+          other.classList.remove('open');
+          const otherQ = other.querySelector('.faq-q');
+          if (otherQ) otherQ.setAttribute('aria-expanded', 'false');
+        }
+      });
+      item.classList.toggle('open', willOpen);
+      q.setAttribute('aria-expanded', String(willOpen));
     });
   });
 })();
@@ -2581,15 +2627,23 @@ const REVIEWS = {
   if (sellerCountEl) sellerCountEl.textContent = REVIEWS.sellers.length;
 })();
 
-/* ---------- Form: client-side feedback ---------- */
+/* ---------- Form: client-side feedback + submit state ---------- */
 (function () {
   const form = document.querySelector('form[data-sell-form]');
   if (!form) return;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitLabel = submitBtn ? submitBtn.textContent : '';
   form.addEventListener('submit', (e) => {
     const consent = form.querySelector('input[name="consent"]');
     if (consent && !consent.checked) {
       e.preventDefault();
       alert('Please agree to the privacy terms to submit.');
+      return;
+    }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.dataset.busy = 'true';
+      submitBtn.textContent = 'Sending…';
     }
   });
 })();
@@ -2602,9 +2656,8 @@ const REVIEWS = {
   const sent = document.querySelector('[data-sell-sent]');
   if (form) form.style.display = 'none';
   if (sent) sent.hidden = false;
-  // Strip ?sent=1 from the URL but keep the #sell hash so the router stays on the sell view
-  const cleanUrl = window.location.pathname + (window.location.hash || '#sell');
-  window.history.replaceState({}, '', cleanUrl);
+  // Strip ?sent=1 from the URL but stay on /sell so a refresh doesn't re-trigger the success state
+  window.history.replaceState({}, '', '/sell');
 })();
 
 </script>
