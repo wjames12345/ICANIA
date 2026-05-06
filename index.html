@@ -604,23 +604,6 @@ form[data-sell-form] button[type="submit"] { min-width: 220px; }
   margin: 0 auto;
   position: relative;
 }
-.hero-eyebrow {
-  display: none;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 16px;
-  color: var(--accent);
-  margin: 0 0 24px;
-  letter-spacing: 0.01em;
-  align-items: center;
-  gap: 14px;
-}
-.hero-eyebrow-rule {
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  background: var(--accent);
-}
 .hero-headline-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1372,7 +1355,6 @@ main:focus { outline: none; }
   .hero { padding: 40px 0 64px; }
   .hero-description { padding-top: 40px; }
   .hero-headline-row { gap: 24px; }
-  .hero-eyebrow { display: inline-flex; }
   .trust { display: grid; grid-template-columns: 1fr 1fr; row-gap: 36px; column-gap: 24px; align-items: start; }
   .trust-item { padding-top: 16px; border-top: 1px solid var(--accent-30); }
   .btn.btn-arrow {
@@ -1475,7 +1457,6 @@ if ('serviceWorker' in navigator) {
 <section class="hero">
       <div class="hero-line">
         <div class="hero-headline-row">
-          <p class="hero-eyebrow fade-up fade-up-1" aria-hidden="true"><span class="hero-eyebrow-rule"></span>For wardrobes worth keeping.</p>
           <h1 class="display-xxl fade-up fade-up-1">Sell your<br>wardrobe<br>without the hassle.</h1>
           <div class="hero-cta fade-up fade-up-2">
             <a class="btn btn-arrow" href="/sell">Sell with Icania</a>
