@@ -946,16 +946,6 @@ a { color: var(--ink); }
   margin-bottom: 1.5em;
   color: var(--ink-80);
 }
-.about-body p:first-of-type::first-letter {
-  font-family: var(--font-display);
-  font-size: 4.5em;
-  float: left;
-  line-height: 0.85;
-  margin: 0.06em 0.1em 0 0;
-  font-weight: 300;
-  color: var(--accent);
-}
-
 .faq-list {
   border-top: var(--hair-strong);
   max-width: var(--max);
@@ -1150,13 +1140,18 @@ a { color: var(--ink); }
   .hero-headline-row { grid-template-columns: 1fr; gap: 40px; }
   .hero-cta { padding-bottom: 0; }
   .sell-hero { grid-template-columns: 1fr; }
-  .sell-hero-left { border-right: 0; border-bottom: var(--hair-strong); padding: 80px var(--gutter); }
-  .sell-hero-right { padding: 80px var(--gutter); }
+  .sell-hero-left { border-right: 0; border-bottom: var(--hair-strong); padding: 64px var(--gutter); }
+  .sell-hero-right { padding: 64px var(--gutter); }
   .sell-aftermath-grid { grid-template-columns: 1fr; gap: 40px; }
-  .about-body { grid-template-columns: 1fr; gap: 40px; }
-  .numbered-row { grid-template-columns: 1fr; gap: 20px; padding: 64px var(--gutter); }
+  .sell-aftermath { padding: 64px var(--gutter); }
+  .about-hero { padding: 88px var(--gutter); }
+  .about-body { grid-template-columns: 1fr; gap: 32px; padding: 56px var(--gutter); }
+  .page-header { padding: 80px 0 48px; }
+  .legal { padding: 96px var(--gutter); }
+  .cta-band { padding: 64px 0; }
+  .numbered-row { grid-template-columns: 1fr; gap: 16px; padding: 56px var(--gutter); }
   .seller-card { padding: 48px var(--gutter); }
-  .section { padding: 96px 0; }
+  .section { padding: 80px 0; }
 }
 
 @media (max-width: 640px) {
@@ -1184,14 +1179,25 @@ a { color: var(--ink); }
   .review-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-base { flex-direction: column; gap: 8px; align-items: flex-start; }
-  .section { padding: 72px 0; }
-  .section-lg { padding: 112px 0; }
-  .hero { padding: 56px 0 80px; }
-  .hero-description { padding-top: 48px; }
-  .legal { padding: 80px var(--gutter); }
+  .section { padding: 56px 0; }
+  .section-lg { padding: 88px 0; }
+  .hero { padding: 40px 0 64px; }
+  .hero-description { padding-top: 40px; }
+  .hero-headline-row { gap: 24px; }
+  .about-hero { padding: 56px var(--gutter); }
+  .about-body { padding: 48px var(--gutter); gap: 24px; }
+  .sell-hero-left { padding: 48px var(--gutter); }
+  .sell-hero-right { padding: 48px var(--gutter); }
+  .sell-aftermath { padding: 48px var(--gutter); }
+  .sell-sent { padding: 64px 16px !important; }
+  .page-header { padding: 56px 0 32px; }
+  .legal { padding: 64px var(--gutter); }
+  .cta-band { padding: 48px 0; }
+  .cta-band-inner { gap: 24px; }
+  .numbered-row { padding: 40px var(--gutter); gap: 12px; }
   .reviews-header { flex-direction: column; align-items: flex-start; }
   .review-tabs { flex-wrap: wrap; gap: 24px; }
-  .seller-card { padding: 40px var(--gutter); }
+  .seller-card { padding: 32px var(--gutter); }
   .nav-mark { font-size: 24px; }
   .footer-mark { font-size: 36px; }
 }
