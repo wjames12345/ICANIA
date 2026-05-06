@@ -403,9 +403,51 @@ form[data-sell-form] button[type="submit"] { min-width: 220px; }
   padding: 28px 0;
   border-bottom: var(--hair-strong);
   transition: border-color 0.25s ease;
+  position: relative;
 }
 .form-field:focus-within { border-bottom-color: var(--accent); }
 .form-field:last-child { border-bottom: 0; }
+
+.form-field.field-invalid { border-bottom-color: var(--ink); }
+.form-field.field-invalid .req { display: none; }
+.form-field.field-invalid::after {
+  content: "×";
+  position: absolute;
+  top: 24px;
+  right: 0;
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.form-check.field-invalid {
+  position: relative;
+  padding-right: 32px;
+}
+.form-check.field-invalid::after {
+  content: "×";
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.form-message {
+  margin: 14px 0 0;
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.form-message[hidden] { display: none; }
 
 .form-label {
   font-family: var(--font);
@@ -1709,7 +1751,7 @@ if ('serviceWorker' in navigator) {
 
       <div class="sell-hero-right">
         <div class="sell-form-wrap fade-up fade-up-2">
-          <form data-sell-form action="https://formsubmit.co/louise@icania.co.uk" method="POST" enctype="multipart/form-data">
+          <form data-sell-form action="https://formsubmit.co/louise@icania.co.uk" method="POST" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="_subject" value="New Icania sell enquiry">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_next" value="https://icania.co.uk/sell?sent=1">
@@ -1769,6 +1811,7 @@ if ('serviceWorker' in navigator) {
 
             <div style="margin-top: 40px;">
               <button class="btn btn-arrow" type="submit">Submit enquiry</button>
+              <p class="form-message" data-form-message hidden role="status" aria-live="polite"></p>
             </div>
           </form>
 
@@ -3021,19 +3064,74 @@ if (window.location.pathname.replace(/\/$/, '') === '/reviews') {
   window.__renderReviews();
 }
 
-/* ---------- Form: client-side feedback + submit state ---------- */
+/* ---------- Form: validation + submit state ---------- */
 (function () {
   const form = document.querySelector('form[data-sell-form]');
   if (!form) return;
   const submitBtn = form.querySelector('button[type="submit"]');
-  const submitLabel = submitBtn ? submitBtn.textContent : '';
+  const message = form.querySelector('[data-form-message]');
+
+  function wrapperFor(field) {
+    return field.closest('.form-field') || field.closest('.form-check');
+  }
+
+  function clearInvalid(wrap) {
+    if (wrap) wrap.classList.remove('field-invalid');
+  }
+
+  function attachClearer(field) {
+    const wrap = wrapperFor(field);
+    const evt = field.type === 'checkbox' ? 'change' : 'input';
+    const handler = () => {
+      if (field.checkValidity && field.checkValidity()) clearInvalid(wrap);
+    };
+    if (!field.dataset.clearerAttached) {
+      field.addEventListener(evt, handler);
+      field.dataset.clearerAttached = 'true';
+    }
+  }
+
+  function showMessage(text) {
+    if (!message) return;
+    message.hidden = false;
+    message.textContent = text;
+  }
+  function hideMessage() {
+    if (!message) return;
+    message.hidden = true;
+    message.textContent = '';
+  }
+
   form.addEventListener('submit', (e) => {
-    const consent = form.querySelector('input[name="consent"]');
-    if (consent && !consent.checked) {
+    const required = form.querySelectorAll('[required]');
+    let firstInvalid = null;
+    let invalidCount = 0;
+
+    required.forEach((field) => {
+      const wrap = wrapperFor(field);
+      const valid = field.checkValidity();
+      if (!valid) {
+        if (wrap) wrap.classList.add('field-invalid');
+        invalidCount++;
+        if (!firstInvalid) firstInvalid = wrap || field;
+        attachClearer(field);
+      } else if (wrap) {
+        wrap.classList.remove('field-invalid');
+      }
+    });
+
+    if (invalidCount > 0) {
       e.preventDefault();
-      alert('Please agree to the privacy terms to submit.');
+      showMessage(invalidCount === 1
+        ? 'Please complete the highlighted field above.'
+        : 'Please complete the ' + invalidCount + ' highlighted fields above.');
+      if (firstInvalid && firstInvalid.scrollIntoView) {
+        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return;
     }
+
+    hideMessage();
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.dataset.busy = 'true';
