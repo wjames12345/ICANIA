@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" as="image" href="/fairy_stopmotion.gif">
   <meta name="theme-color" content="#1F2540">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -330,6 +331,13 @@ a { color: var(--ink); text-decoration: none; }
   font-weight: 400;
 }
 .btn:hover { background: transparent; color: var(--ink); }
+.btn[disabled], .btn[data-busy="true"] {
+  opacity: 0.7;
+  cursor: progress;
+  background: var(--ink);
+  color: var(--bg);
+}
+form[data-sell-form] button[type="submit"] { min-width: 220px; }
 
 .btn-ghost {
   background: transparent;
@@ -514,11 +522,18 @@ a { color: var(--ink); text-decoration: none; }
   text-transform: none;
   letter-spacing: 0;
 }
+.upload-count {
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--ink-65);
+  margin-top: 14px;
+  letter-spacing: 0.04em;
+}
 .upload-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 .upload-thumb {
   width: 72px;
@@ -576,6 +591,29 @@ a { color: var(--ink); text-decoration: none; }
   padding-bottom: 12px;
   justify-self: center;
 }
+
+/* ---------- Skip-to-content (visible on keyboard focus) ---------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 16px;
+  z-index: 10000;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--font);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+.skip-link:focus {
+  left: 16px;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+main:focus { outline: none; }
 
 /* ---------- Page loader (delayed; only shown if load > 200ms) ---------- */
 #page-loader {
@@ -655,6 +693,11 @@ a { color: var(--ink); text-decoration: none; }
   font-feature-settings: "tnum";
   font-weight: 400;
   line-height: 1;
+}
+.trust-num--text {
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -0.005em;
+  font-feature-settings: normal;
 }
 .trust-item-label {
   font-family: var(--font);
@@ -987,7 +1030,8 @@ a { color: var(--ink); text-decoration: none; }
   width: 100%;
   background: none;
   border: 0;
-  padding: 36px var(--gutter);
+  padding: 32px var(--gutter);
+  min-height: 88px;
   text-align: left;
   font-family: var(--font-display);
   font-size: clamp(20px, 2.4vw, 28px);
@@ -1003,11 +1047,15 @@ a { color: var(--ink); text-decoration: none; }
 }
 .faq-q .icon {
   font-family: var(--font);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 300;
   flex: 0 0 auto;
-  width: 24px;
-  text-align: center;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: -10px -10px -10px 0;
   transition: transform 0.3s;
   color: var(--accent);
 }
@@ -1015,12 +1063,12 @@ a { color: var(--ink); text-decoration: none; }
 .faq-a {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.3s ease;
+  transition: max-height 0.45s ease, padding 0.3s ease;
   padding: 0 var(--gutter);
 }
 .faq-item.open .faq-a {
   padding: 0 var(--gutter) 40px;
-  max-height: 600px;
+  max-height: 1600px;
 }
 .faq-a p {
   font-family: var(--font);
@@ -1236,6 +1284,7 @@ a { color: var(--ink); text-decoration: none; }
   </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to content</a>
 <div id="page-loader" aria-hidden="true">
   <img src="fairy_stopmotion.gif" alt="Icania" width="200" height="200">
 </div>
@@ -1272,6 +1321,11 @@ a { color: var(--ink); text-decoration: none; }
   if (ready()) done();
   else document.addEventListener('DOMContentLoaded', done);
 })();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').catch(function () {});
+  });
+}
 </script>
 
 <header class="nav">
@@ -1292,7 +1346,7 @@ a { color: var(--ink); text-decoration: none; }
   </div>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
 <section data-view="home">
 <section class="hero">
       <div class="hero-line">
@@ -1324,7 +1378,7 @@ a { color: var(--ink); text-decoration: none; }
           <span>Months on the rail</span>
         </div>
         <div class="trust-item">
-          <span class="trust-num mono-num">South West</span>
+          <span class="trust-num trust-num--text">South West</span>
           <span>London only</span>
         </div>
       </div>
@@ -1479,6 +1533,7 @@ a { color: var(--ink); text-decoration: none; }
                 <span class="upload-label">+ Add photos</span>
                 <p class="upload-help">A few quick snaps of typical pieces helps us decide what we can take. Max 8 images.</p>
               </label>
+              <p class="upload-count" data-upload-count hidden></p>
               <div class="upload-list"></div>
             </div>
 
@@ -2388,6 +2443,9 @@ const REVIEWS = {
     navLinks.forEach((a) => {
       a.classList.toggle('active', a.dataset.nav === name);
     });
+    if (name === 'reviews' && typeof window.__renderReviews === 'function') {
+      window.__renderReviews();
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -2515,20 +2573,42 @@ const REVIEWS = {
 
 /* ---------- Photo upload preview ---------- */
 (function () {
+  const MAX = 8;
   const input = document.querySelector('input[name="photos"]');
   const list = document.querySelector('.upload-list');
+  const counter = document.querySelector('[data-upload-count]');
   if (!input || !list) return;
   const dt = new DataTransfer();
 
+  function formatSize(bytes) {
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+    return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+  }
+
   function render() {
     list.innerHTML = '';
-    Array.from(dt.files).forEach((file, idx) => {
+    const files = Array.from(dt.files);
+    if (counter) {
+      if (files.length === 0) {
+        counter.hidden = true;
+        counter.textContent = '';
+      } else {
+        const total = files.reduce((sum, f) => sum + f.size, 0);
+        counter.hidden = false;
+        counter.textContent =
+          files.length + ' photo' + (files.length === 1 ? '' : 's') +
+          ' · ' + formatSize(total) +
+          (files.length >= MAX ? ' · max reached' : '');
+      }
+    }
+    files.forEach((file, idx) => {
       const reader = new FileReader();
       const thumb = document.createElement('div');
       thumb.className = 'upload-thumb';
       const x = document.createElement('button');
       x.type = 'button';
       x.className = 'upload-thumb-x';
+      x.setAttribute('aria-label', 'Remove ' + file.name);
       x.textContent = '×';
       x.addEventListener('click', () => {
         const newDt = new DataTransfer();
@@ -2545,7 +2625,9 @@ const REVIEWS = {
     });
   }
   input.addEventListener('change', (e) => {
-    Array.from(e.target.files).forEach((f) => dt.items.add(f));
+    Array.from(e.target.files).forEach((f) => {
+      if (dt.items.length < MAX) dt.items.add(f);
+    });
     input.files = dt.files;
     render();
   });
@@ -2594,43 +2676,52 @@ const REVIEWS = {
   render();
 })();
 
-/* ---------- Reviews loader ---------- */
-(function () {
-  const buyerWrap = document.querySelector('[data-review-panel="buyers"]');
-  const sellerWrap = document.querySelector('[data-review-panel="sellers"]');
-  if (!buyerWrap || !sellerWrap) return;
+/* ---------- Reviews loader (lazy: renders the first time /reviews opens) ---------- */
+window.__renderReviews = (function () {
+  let rendered = false;
+  return function () {
+    if (rendered) return;
+    const buyerWrap = document.querySelector('[data-review-panel="buyers"]');
+    const sellerWrap = document.querySelector('[data-review-panel="sellers"]');
+    if (!buyerWrap || !sellerWrap) return;
+    rendered = true;
 
-  const buyerCountEl = document.querySelector('[data-review-tab="buyers"] .count');
-  const sellerCountEl = document.querySelector('[data-review-tab="sellers"] .count');
+    const buyerCountEl = document.querySelector('[data-review-tab="buyers"] .count');
+    const sellerCountEl = document.querySelector('[data-review-tab="sellers"] .count');
 
-  const buyerGrid = buyerWrap.querySelector('.review-grid');
-  if (buyerGrid) {
-    buyerGrid.innerHTML = REVIEWS.buyers.map((r) =>
-      '<article class="review-card">' +
-        '<div class="review-stars">' + '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars) + '</div>' +
-        '<p class="review-quote">' + r.quote + '</p>' +
-        '<div class="review-meta"><span>' + r.name + '</span><span>' + r.date + '</span></div>' +
-      '</article>'
-    ).join('');
-  }
-  if (buyerCountEl) buyerCountEl.textContent = REVIEWS.totalBuyerReviews || REVIEWS.buyers.length;
+    const buyerGrid = buyerWrap.querySelector('.review-grid');
+    if (buyerGrid) {
+      buyerGrid.innerHTML = REVIEWS.buyers.map((r) =>
+        '<article class="review-card">' +
+          '<div class="review-stars">' + '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars) + '</div>' +
+          '<p class="review-quote">' + r.quote + '</p>' +
+          '<div class="review-meta"><span>' + r.name + '</span><span>' + r.date + '</span></div>' +
+        '</article>'
+      ).join('');
+    }
+    if (buyerCountEl) buyerCountEl.textContent = REVIEWS.totalBuyerReviews || REVIEWS.buyers.length;
 
-  const sellerList = sellerWrap.querySelector('.seller-list');
-  if (sellerList) {
-    sellerList.innerHTML = REVIEWS.sellers.map((s) =>
-      '<article class="seller-card">' +
-        '<p class="seller-quote">&ldquo;' + s.quote + '&rdquo;</p>' +
-        '<div class="seller-meta">' +
-          '<div><span class="label">Consignor</span><span class="value">' + s.name + '</span></div>' +
-          '<div><span class="label">Pieces sold</span><span class="value">' + s.pieces + '</span></div>' +
-          '<div><span class="label">Earned</span><span class="value">£' + s.earned + '</span></div>' +
-          '<div><span class="label">Area</span><span class="value">' + s.area + '</span></div>' +
-        '</div>' +
-      '</article>'
-    ).join('');
-  }
-  if (sellerCountEl) sellerCountEl.textContent = REVIEWS.sellers.length;
+    const sellerList = sellerWrap.querySelector('.seller-list');
+    if (sellerList) {
+      sellerList.innerHTML = REVIEWS.sellers.map((s) =>
+        '<article class="seller-card">' +
+          '<p class="seller-quote">&ldquo;' + s.quote + '&rdquo;</p>' +
+          '<div class="seller-meta">' +
+            '<div><span class="label">Consignor</span><span class="value">' + s.name + '</span></div>' +
+            '<div><span class="label">Pieces sold</span><span class="value">' + s.pieces + '</span></div>' +
+            '<div><span class="label">Earned</span><span class="value">£' + s.earned + '</span></div>' +
+            '<div><span class="label">Area</span><span class="value">' + s.area + '</span></div>' +
+          '</div>' +
+        '</article>'
+      ).join('');
+    }
+    if (sellerCountEl) sellerCountEl.textContent = REVIEWS.sellers.length;
+  };
 })();
+// If we landed directly on /reviews, render immediately.
+if (window.location.pathname.replace(/\/$/, '') === '/reviews') {
+  window.__renderReviews();
+}
 
 /* ---------- Form: client-side feedback + submit state ---------- */
 (function () {
