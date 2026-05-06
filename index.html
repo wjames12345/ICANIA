@@ -563,7 +563,7 @@ a { color: var(--ink); }
   align-items: flex-start;
 }
 .hero-media {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   max-height: 68vh;
   background: var(--ink-06);
   border-radius: 4px;
@@ -944,11 +944,8 @@ a { color: var(--ink); }
   margin: 0 auto;
 }
 .about-body {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 80px;
+  max-width: 760px;
   padding: 80px var(--gutter);
-  max-width: var(--max);
   margin: 0 auto;
   border-top: var(--hair-strong);
 }
@@ -1158,7 +1155,7 @@ a { color: var(--ink); }
   .sell-aftermath-grid { grid-template-columns: 1fr; gap: 40px; }
   .sell-aftermath { padding: 64px var(--gutter); }
   .about-hero { padding: 88px var(--gutter); }
-  .about-body { grid-template-columns: 1fr; gap: 32px; padding: 56px var(--gutter); }
+  .about-body { padding: 56px var(--gutter); }
   .page-header { padding: 80px 0 48px; }
   .legal { padding: 96px var(--gutter); }
   .cta-band { padding: 64px 0; }
@@ -1198,7 +1195,7 @@ a { color: var(--ink); }
   .hero-description { padding-top: 40px; }
   .hero-headline-row { gap: 24px; }
   .about-hero { padding: 56px var(--gutter); }
-  .about-body { padding: 48px var(--gutter); gap: 24px; }
+  .about-body { padding: 48px var(--gutter); }
   .sell-hero-left { padding: 48px var(--gutter); }
   .sell-hero-right { padding: 48px var(--gutter); }
   .sell-aftermath { padding: 48px var(--gutter); }
@@ -1250,9 +1247,7 @@ a { color: var(--ink); }
             </div>
           </div>
           <div class="hero-media fade-up fade-up-3">
-            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
-              <source src="fairy.mp4" type="video/mp4">
-            </video>
+            <img class="hero-video" src="fairy_stopmotion.gif" alt="">
           </div>
         </div>
       </div>
@@ -1617,10 +1612,6 @@ a { color: var(--ink); }
     </section>
 
     <section class="about-body">
-      <div>
-        <p class="display-s">Louise</p>
-        <p class="caption" style="color: var(--ink-70); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.18em;">South West London</p>
-      </div>
       <div>
         <p>Icania was started by Louise, a one woman South West London consignment service for women who have wardrobes full of clothes they no longer wear and no time to sell them.</p>
         <p>The business runs on a simple principle: most people who could be making money from their old clothes never will, because the work involved is genuinely tedious. Photographing each piece, writing a description, dealing with messages, packing, posting, handling returns. After two or three items, most people give up.</p>
